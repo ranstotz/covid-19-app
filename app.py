@@ -1,9 +1,7 @@
 import os
 from flask import Flask, send_from_directory
-from flask_cors import CORS
 
 app = Flask(__name__, static_folder='client/build', template_folder='client')
-CORS(app)
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
