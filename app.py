@@ -1,5 +1,5 @@
 import os
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 
 app = Flask(__name__, static_folder='./client/dist', template_folder='./client')
 
@@ -10,7 +10,8 @@ def serve(path):
     if path != "" and os.path.exists(app.static_folder + '/' + path):
         return send_from_directory(app.static_folder, path)
     else:
-        return send_from_directory(app.static_folder, 'index.html')
+        #return send_from_directory(app.static_folder, 'index.html')
+        return render_template("index.html")
 
 
 if __name__ == '__main__':
