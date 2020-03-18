@@ -1,7 +1,7 @@
 import os
 from flask import Flask, send_from_directory, render_template
 
-app = Flask(__name__, static_folder='./client/dist', template_folder='./client')
+app = Flask(__name__, static_folder='./client/dist', template_folder='./client/dist')
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
