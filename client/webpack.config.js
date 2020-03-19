@@ -1,6 +1,11 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  devServer: {
+    proxy: {
+      '/api': 'http://localhost:5000'
+    }
+  },
   module: {
     rules: [
       {
@@ -20,10 +25,10 @@ module.exports = {
       }
     ]
   },
-      plugins: [
+  plugins: [
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html"
+      template: './src/index.html',
+      filename: './index.html'
     })
   ]
 };

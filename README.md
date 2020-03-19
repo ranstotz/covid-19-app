@@ -1,43 +1,11 @@
-## Flask-React Tensorflow Project
-This project illustrates using flask and react to start a machine learning Project based on Tensorflow. 
+# README.md
 
-### Installation
-Install flask https://flask.palletsprojects.com/en/1.1.x/installation/
+data source: https://github.com/CSSEGISandData/COVID-19 
 
-Clone the repository
-`git clone https://github.com/banphlet/Flask-Tensorflow`
+## Start backend:
 
-Install virtual env 
-```
-python3 -m venv venv
+`python3 app.py`
 
-```
-Install dependencies
-```
-pip install -r requirements.txt
+## Start frontend:
 
-```
-
-### Envs
-```
-FLASK_APP=./autoapp.py
-DATABASE_URL=mongodb://localhost/flask
-
-```
-
-
-### Frontend
-Ensure you have nodejs installed.
-
-Install dependencies
-`npm install`
-
-Build production react build
-
-`npm run build`
-
-
-
-### Start application
-
-`flask run`
+`npm start`
