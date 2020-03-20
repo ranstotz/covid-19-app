@@ -15,6 +15,7 @@ def items():
 @app.route('/<path:path>')
 def serve(path):
     ''' serve index.html for non-api routes '''
+    # if statement needed to accurately serve supporting files to index.html
     if path != "" and os.path.exists(app.static_folder + '/' + path):
         return send_from_directory(app.static_folder, path)
     else:

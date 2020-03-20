@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-// import Chart from 'chart.js';
+import Chart from 'chart.js';
 import './Chart1.css';
 
 function Chart1() {
-  // const chartRef = React.createRef();
+  const chartRef = React.createRef();
 
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     console.log('hello');
     // chartjs stuff
-    // const myChartRef = chartRef.current.getContext('2d');
+    const myChartRef = chartRef.current.getContext('2d');
 
     const hardcodedLabels = [
       '1/21/2020',
@@ -108,31 +108,31 @@ function Chart1() {
       95324
     ];
 
-    // new Chart(myChartRef, {
-    //   type: 'line',
-    //   data: {
-    //     //Bring in data
-    //     labels: hardcodedLabels,
-    //     datasets: [
-    //       {
-    //         label: 'Worldwide Cases',
-    //         data: hardcodedData
-    //       }
-    //     ]
-    //   },
-    //   options: {
-    //     //Customize chart options
-    //   }
-    // });
+    new Chart(myChartRef, {
+      type: 'line',
+      data: {
+        //Bring in data
+        labels: hardcodedLabels,
+        datasets: [
+          {
+            label: 'Worldwide Cases',
+            data: hardcodedData
+          }
+        ]
+      },
+      options: {
+        //Customize chart options
+      }
+    });
   });
 
   return (
     <div>
       <p>You clicked {count} times</p>
       <button onClick={() => setCount(count + 1)}>Click me</button>
-      {/* <div className="chart-css">
+      <div className="chart-css">
         <canvas id="myChart" ref={chartRef} />
-      </div> */}
+      </div>
     </div>
   );
 }
