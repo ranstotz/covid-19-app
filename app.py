@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, send_from_directory
 
 app = Flask(__name__, static_folder='./client/dist',
             template_folder='./client/dist')
@@ -15,7 +15,11 @@ def items():
 @app.route('/<path:path>')
 def serve(path):
     ''' serve index.html for non-api routes '''
-    return render_template("index.html")
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        # return send_from_directory(app.static_folder, 'index.html')
+        return render_template("index.html")
 
 
 if __name__ == '__main__':
