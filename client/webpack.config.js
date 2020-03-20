@@ -1,11 +1,11 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  devServer: {
-    proxy: {
-      '/api': 'http://localhost:5000'
-    }
-  },
+  // devServer: {
+  //   proxy: {
+  //     '/api': 'http://localhost:5000'
+  //   }
+  // },
   module: {
     rules: [
       {
