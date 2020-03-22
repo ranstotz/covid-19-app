@@ -1,13 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Chart1 from './Chart1';
+import LineChart from './LineChart';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
-      <Chart1 />
+      <LineChart name="Total Worldwide Cases" />
     </div>
   );
 }
