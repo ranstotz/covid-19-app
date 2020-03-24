@@ -2,9 +2,18 @@ import os
 from flask import Flask, jsonify, render_template, send_from_directory
 # import pandas as pd
 
+counter = 0
 
 app = Flask(__name__, static_folder='./client/dist',
             template_folder='./client/dist')
+
+
+@app.route('/app_hits_per_script')
+def app_hits():
+    global counter
+    counter += 1
+    return "Total visits: {}".format(counter)
+
 
 # api routes
 @app.route('/api/items')
