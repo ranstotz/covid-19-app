@@ -7,6 +7,12 @@ counter = 0
 app = Flask(__name__, static_folder='./client/dist',
             template_folder='./client/dist')
 
+# TODO: objects outside of functions are not safe/consistent
+# since flask has multiple processes running (gunicorn)
+# therefore, either make multiple calls for same data,
+# or return most or all relevant data in as few calls as possible
+# Quickly transform Confirmed and Deaths in two calls. Easy peasy
+
 
 @app.route('/app_hits_per_script')
 def app_hits():
@@ -30,6 +36,10 @@ def items():
 #         'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/who_covid_19_situation_reports/who_covid_19_sit_rep_time_series/who_covid_19_sit_rep_time_series.csv')
 #     return jsonify({'title': 'A'})
 
+@app.route('/api/covid-19-confirmed')
+def confirmed_cases():
+    ''' route to get json of confirmed cases from JHU '''
+    return
 
 # Serve React App
 @app.route('/', defaults={'path': ''})
