@@ -1,6 +1,8 @@
+from flask import jsonify, make_response
 import os
 from flask import Flask, jsonify, render_template, send_from_directory
-# import pandas as pd
+
+from server.covid_data import get_state_data
 
 counter = 0
 
@@ -20,6 +22,11 @@ def app_hits():
     counter += 1
     return "Total visits: {}".format(counter)
 
+
+@app.route('/api/state-data')
+def summary():
+    state_payload = get_state_data()
+    return jsonify(state_payload)
 
 # api routes
 @app.route('/api/items')

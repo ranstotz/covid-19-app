@@ -8,6 +8,7 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       <LineChart name="Total Worldwide Cases" />
+      <div style={{ paddingBottom: '20px' }}></div>
     </div>
   );
 }

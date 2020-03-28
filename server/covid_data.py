@@ -1,88 +1,52 @@
 # Class to read in data
 import pandas as pd
+from collections import OrderedDict
 import sys
 
-'''
-json shape
 
-{
-    'aggregate_country_data': [
-        'us': {
-            'deaths': 39,
-            'confirmed': 300
-        },
-        'italy': {
-            'deaths': 308:
-            'confirmed': 1003
-        }
-    ],
-    'aggregate_state_data': [
-        'pennsylvania': {
-            'deaths': 3:
-            'confirmed': 38
-        }, 
-        'new jersey' : {
-            'deaths': 9:
-            'confirmed': 101
-        }
-    ],
-    'time_series_country_data': [
-        'US': [
-            # note that the confirmed are only for that day and need to be calculated
-            {'day': '02-24-2020', 'confirmed': '3', 'deaths': '0'},
-            {'day': '02-25-2020', 'confirmed': '5', 'deaths': '0'}
-        ],
-        'China': [
-            {'day': '02-24-2020', 'confirmed': '10', 'deaths': '1'},
-            {'day': '02-25-2020', 'confirmed': '17', 'deaths': '2'}
-        ]
-    ],
-    'time_series_state_data': [
-        'pennsylvania': [
-            # note that the confirmed are only for that day and need to be calculated
-            {'day': '02-24-2020', 'confirmed': '3', 'deaths': '0'},
-            {'day': '02-25-2020', 'confirmed': '5', 'deaths': '0'}
-        ],
-        'new jersey': [
-            {'day': '02-24-2020', 'confirmed': '10', 'deaths': '1'},
-            {'day': '02-25-2020', 'confirmed': '17', 'deaths': '2'}
-        ]
-    ]
-}
-'''
+def get_state_data():
+    target_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
+    state_src = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv'
+
+    df = pd.read_csv(state_src)
+    state_payload = {}
+    state_payload = OrderedDict()
+
+    for state in target_states:
+        tmp_df = df.loc[(df['state'] == state)]
+        tmp_payload = {state: tmp_df.to_dict(orient='split')}
+        state_payload.update(tmp_payload)
+
+    return state_payload
+
 
 if __name__ == "__main__":
 
-    aggregate_countries = ['US', 'China', 'Italy', 'Korea, South']
-    aggregate_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
+    target_countries = ['US', 'China', 'Italy', 'Korea, South']
+    target_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
 
     # loop through all the days to aggregate the data
 
-    day_src = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-25-2020.csv'
-    day_src = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-14-2020.csv'
+    state_src = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv'
 
-    df = pd.read_csv(day_src)
+    df = pd.read_csv(state_src)
     print("size of this thing: ", sys.getsizeof(df))
     print(df.head())
     # https://datatofish.com/select-rows-pandas-dataframe/
     # use above to get my rows, then make a json
 
     target = 'Pennsylvania'
-    try:
-        penn = df.loc[(df['Province_State'] == target)]
-    except:
-        # inconsistency with their csv keys...
-        pass
-    try:
-        penn = df.loc[(df['Province/State'] == target)]
-    except:
-        # inconsistency with their csv keys...
-        pass
+    penn = df.loc[(df['state'] == target)]
 
-    total_confirmed = penn['Confirmed'].sum()
-    total_deaths = penn['Deaths'].sum()
+    total_confirmed = penn['cases'].sum()
+    total_deaths = penn['deaths'].sum()
 
-    print("total confirmed: ", total_confirmed, total_deaths)
-    print(penn.head())
+    payload = {}
 
-    print(payload)
+    for state in target_states:
+        tmp_df = df.loc[(df['state'] == state)]
+        tmp_payload = {state: tmp_df.to_dict(orient='split')}
+        payload.update(tmp_payload)
+
+    for k, v in payload.items():
+        print(k, " : ", v)
