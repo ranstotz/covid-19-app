@@ -6,3 +6,7 @@
 canvas {
   background-color: rgba(49, 51, 53, 1);
 }
+
+.spacing {
+  padding-bottom: 20px;
+}

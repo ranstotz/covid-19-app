@@ -11,12 +11,13 @@ function LineChart(props) {
   const options = {
     legend: {
       labels: {
-        fontColor: 'orange'
+        fontColor: 'white'
       }
     },
     scales: {
       yAxes: [
         {
+          position: 'right',
           ticks: {
             beginAtZero: true,
             fontColor: 'white'
@@ -39,18 +40,19 @@ function LineChart(props) {
     }
   };
 
-  const data2 = (chartLabels, chartData) => {
+  const chartData = (title, chartLabels, chartData) => {
+    const backgroundColor =
+      title === 'Cases' ? 'rgba(255, 165, 0, 1)' : 'rgba(255, 0, 0, 1)';
+
     return {
       labels: chartLabels,
       datasets: [
         {
-          label: 'Total Coronavirus Cases',
+          label: 'Total ' + title,
           fill: false,
           lineTension: 0.1,
-          // backgroundColor: 'rgba(75,192,192,0.4)',
-          backgroundColor: 'rgba(255, 165, 0, 1)',
-          // borderColor: 'rgba(75,192,192,1)',
-          borderColor: 'rgba(255, 165, 0, 1)',
+          backgroundColor: backgroundColor,
+          borderColor: backgroundColor,
           borderCapStyle: 'butt',
           borderDash: [],
           borderDashOffset: 0.0,
@@ -78,26 +80,27 @@ function LineChart(props) {
         console.log('data: ', data);
 
         let allxdata = [];
-        let allydata = [];
-
-        let tmpxdata = [];
-        let tmpydata = [];
+        let allCases = [];
+        let allDeaths = [];
 
         for (const state of state_array) {
           console.log(state);
           let state_data = data[state].data;
           let tmpxdata = [];
-          let tmpydata = [];
+          let tmpCases = [];
+          let tmpDeaths = [];
           for (const item of state_data) {
             tmpxdata.push(item[0]);
-            tmpydata.push(item[3]);
+            tmpCases.push(item[3]);
+            tmpDeaths.push(item[4]);
           }
           allxdata.push(tmpxdata);
-          allydata.push(tmpydata);
+          allCases.push(tmpCases);
+          allDeaths.push(tmpDeaths);
         }
 
         const allthedata = allxdata.map((e, i) => {
-          return [e, allydata[i]];
+          return [e, allCases[i], allDeaths[i]];
         });
         setAllData(allthedata);
         setIsLoaded(true);
@@ -113,11 +116,23 @@ function LineChart(props) {
           allData.map((item, index) => (
             <>
               <h2>{state_array[index]}</h2>
-              <Line data={data2(item[0], item[1])} options={options}></Line>
+              <p>
+                Cases: {item[1].slice(-1).toLocaleString()} <br />
+                Deaths: {item[2].slice(-1).toLocaleString()}
+              </p>
+              <Line
+                data={chartData('Cases', item[0], item[1])}
+                options={options}
+              ></Line>
+              <Line
+                data={chartData('Deaths', item[0], item[2])}
+                options={options}
+              ></Line>
+              <br />
             </>
           ))
         ) : (
-          <div>loading...</div>
+          <div>Loading...</div>
         )}
       </div>
     </div>
