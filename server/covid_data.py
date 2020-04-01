@@ -52,7 +52,9 @@ def get_state_data():
 
 if __name__ == "__main__":
 
-    get_country_data()
+    print("nothing")
+    # print(get_country_data())
+    # print(get_state_data())
 
     # target_countries = ['US', 'China', 'Italy', 'Korea, South']
     # target_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
@@ -79,6 +81,3 @@ if __name__ == "__main__":
     #     tmp_df = df.loc[(df['state'] == state)]
     #     tmp_payload = {state: tmp_df.to_dict(orient='split')}
     #     payload.update(tmp_payload)
-
-    # for k, v in payload.items():
-    #     print(k, " : ", v)

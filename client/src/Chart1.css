@@ -1,6 +1,8 @@
 .chart-css {
   max-width: 1000px;
   width: 100%;
+  text-align: center;
+  margin: auto;
 }
 
 canvas {
@@ -9,4 +11,12 @@ canvas {
 
 .spacing {
   padding-bottom: 20px;
+}
+
+.chart-area {
+  border-bottom: 5px solid rgba(255, 255, 255, 0.25);
+}
+
+.h2-header {
+  text-decoration: underline;
 }

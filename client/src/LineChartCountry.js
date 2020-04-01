@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import './Chart1.css';
 import { Line } from 'react-chartjs-2';
 
-function LineChart(props) {
+function LineChartCountry(props) {
   const [allData, setAllData] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const state_array = ['Pennsylvania', 'New Jersey', 'New York', 'California'];
+  const country_array = ['US', 'Italy', 'China', 'Korea, South', 'Canada'];
 
   const options = {
     legend: {
@@ -74,7 +74,7 @@ function LineChart(props) {
 
   useEffect(() => {
     console.log('fetching...');
-    fetch('/api/state-data')
+    fetch('/api/country-data')
       .then(response => response.json())
       .then(data => {
         console.log('data: ', data);
@@ -83,7 +83,7 @@ function LineChart(props) {
         let allCases = [];
         let allDeaths = [];
 
-        for (const state of state_array) {
+        for (const state of country_array) {
           console.log(state);
           let state_data = data[state].data;
           let tmpxdata = [];
@@ -110,13 +110,13 @@ function LineChart(props) {
   return (
     <div>
       <div className="chart-css">
-        <h2 className="h2-header">United States Breakdown by State</h2>
+        <h2 className="h2-header">Global Breakdown by Country</h2>
 
         {isLoaded && allData ? (
           allData.map((item, index) => (
             <>
               <div className="chart-area">
-                <h2>{state_array[index]}</h2>
+                <h2>{country_array[index]}</h2>
                 <p>
                   Cases: {item[1].slice(-1).toLocaleString()} <br />
                   Deaths: {item[2].slice(-1).toLocaleString()}
@@ -141,4 +141,4 @@ function LineChart(props) {
   );
 }
 
-export default LineChart;
+export default LineChartCountry;
