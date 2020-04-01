@@ -2,7 +2,7 @@ from flask import jsonify, make_response
 import os
 from flask import Flask, jsonify, render_template, send_from_directory
 
-from server.covid_data import get_state_data
+from server.covid_data import get_state_data, get_country_data
 
 counter = 0
 
@@ -21,6 +21,12 @@ def app_hits():
     global counter
     counter += 1
     return "Total visits: {}".format(counter)
+
+
+@app.route('/api/country-data')
+def summary():
+    country_payload = get_country_data()
+    return jsonify(country_payload)
 
 
 @app.route('/api/state-data')

@@ -4,6 +4,36 @@ from collections import OrderedDict
 import sys
 
 
+def get_country_data():
+
+    # target array: ["date", "state", "fips", "cases", "deaths"]
+    cases_url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
+    deaths_url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'
+
+    countries = ['US', 'Italy', 'China', 'Korea, South', 'Canada']
+    cases_df = pd.read_csv(cases_url)
+    deaths_df = pd.read_csv(deaths_url)
+    payload = {}
+    for country in countries:
+        # reduce dataframe to only the country
+        tmp_cases_df = cases_df.loc[(cases_df['Country/Region'] == country)]
+        tmp_deaths_df = deaths_df.loc[(deaths_df['Country/Region'] == country)]
+        # 4 is the first date column
+        sum_cases = tmp_cases_df.iloc[:, 4:].sum().to_dict()
+        sum_deaths = tmp_deaths_df.iloc[:, 4:].sum().to_dict()
+
+        column_array = ['date', 'country', 'fips', 'cases', 'deaths']
+        data_array = []
+        for k, v in sum_cases.items():
+
+            data_array.append([k, country, 'null', v, sum_deaths[k]])
+
+        payload.update(
+            {country: {"columns": column_array, "data": data_array}}
+        )
+    return payload
+
+
 def get_state_data():
     target_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
     state_src = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv'
@@ -22,31 +52,33 @@ def get_state_data():
 
 if __name__ == "__main__":
 
-    target_countries = ['US', 'China', 'Italy', 'Korea, South']
-    target_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
+    get_country_data()
 
-    # loop through all the days to aggregate the data
+    # target_countries = ['US', 'China', 'Italy', 'Korea, South']
+    # target_states = ['Pennsylvania', 'New Jersey', 'New York', 'California']
 
-    state_src = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv'
+    # # loop through all the days to aggregate the data
 
-    df = pd.read_csv(state_src)
-    print("size of this thing: ", sys.getsizeof(df))
-    print(df.head())
-    # https://datatofish.com/select-rows-pandas-dataframe/
-    # use above to get my rows, then make a json
+    # state_src = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv'
 
-    target = 'Pennsylvania'
-    penn = df.loc[(df['state'] == target)]
+    # df = pd.read_csv(state_src)
+    # print("size of this thing: ", sys.getsizeof(df))
+    # print(df.head())
+    # # https://datatofish.com/select-rows-pandas-dataframe/
+    # # use above to get my rows, then make a json
 
-    total_confirmed = penn['cases'].sum()
-    total_deaths = penn['deaths'].sum()
+    # target = 'Pennsylvania'
+    # penn = df.loc[(df['state'] == target)]
 
-    payload = {}
+    # total_confirmed = penn['cases'].sum()
+    # total_deaths = penn['deaths'].sum()
 
-    for state in target_states:
-        tmp_df = df.loc[(df['state'] == state)]
-        tmp_payload = {state: tmp_df.to_dict(orient='split')}
-        payload.update(tmp_payload)
+    # payload = {}
 
-    for k, v in payload.items():
-        print(k, " : ", v)
+    # for state in target_states:
+    #     tmp_df = df.loc[(df['state'] == state)]
+    #     tmp_payload = {state: tmp_df.to_dict(orient='split')}
+    #     payload.update(tmp_payload)
+
+    # for k, v in payload.items():
+    #     print(k, " : ", v)
