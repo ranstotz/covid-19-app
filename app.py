@@ -24,13 +24,13 @@ def app_hits():
 
 
 @app.route('/api/country-data')
-def summary():
+def country_data():
     country_payload = get_country_data()
     return jsonify(country_payload)
 
 
 @app.route('/api/state-data')
-def summary():
+def state_data():
     state_payload = get_state_data()
     return jsonify(state_payload)
 
